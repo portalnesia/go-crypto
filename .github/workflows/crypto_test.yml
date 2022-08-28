@@ -19,6 +19,8 @@ jobs:
 
     env:
       SECRET: ${{secrets.CRYPTO_SECRET}}
+      NODEJS_HASHED: ${{secrets.NODEJS_HASHED}}
+      NODEJS_PASS: ${{secrets.NODEJS_PASS}}
 
     steps:
       - uses: actions/checkout@v3
