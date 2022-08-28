@@ -29,7 +29,7 @@ func main() {
 
   // Decrypted Text
   decrypted := c.Decrypt(encrypted)
-  fmt.Printf("Dncrypted Text: %s",decrypted)
+  fmt.Printf("Decrypted Text: %s",decrypted)
 }
 ```
 
