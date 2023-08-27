@@ -16,7 +16,7 @@ type CryptoKey struct {
 	key []byte
 }
 
-func PortalnesiaCrypto(secret string) CryptoKey {
+func New(secret string) CryptoKey {
 	key := []byte(secret)
 	return CryptoKey{key: key}
 }
