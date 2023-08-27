@@ -55,6 +55,10 @@ func (crypto CryptoKey) Encrypt(data string) (string, error) {
 }
 
 func (crypto CryptoKey) Decrypt(encrypted string) (string, error) {
+	if len(encrypted) <= 0 {
+		return "", nil
+	}
+
 	split := strings.Split(encrypted, ":")
 
 	encrypted = split[0] + split[1]

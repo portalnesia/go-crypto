@@ -16,13 +16,8 @@ func GetConfig() (string, string) {
 
 func TestCrypto(t *testing.T) {
 	TEXT, KEY := GetConfig()
-	fmt.Printf("Text: %s\n", TEXT)
-
 	crypto := PortalnesiaCrypto(KEY)
-
 	encrypted, err := crypto.Encrypt(TEXT)
-
-	fmt.Printf("Encrypted: %s\n", encrypted)
 
 	if err != nil {
 		t.Error(err)
