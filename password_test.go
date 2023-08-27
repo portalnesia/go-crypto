@@ -4,26 +4,25 @@ import (
 	"fmt"
 	"os"
 	"testing"
+
+	"github.com/joho/godotenv"
 )
 
 var (
-	PASS   = "passwordfromtesting"
-	HASHED string
+	pass   = "passwordfromtesting"
+	hashed = HashPassword(pass)
 )
 
-func TestHashPassword(t *testing.T) {
-	HASHED = HashPassword(PASS)
-	fmt.Println(HASHED)
-}
-
 func TestCompareHashedPassword(t *testing.T) {
-	ok := ComparePassword(PASS, HASHED)
+	ok := ComparePassword(pass, hashed)
 	if !ok {
 		t.Errorf("Password not match")
 	}
 }
 
 func TestNodeJsComparePassword(t *testing.T) {
+	godotenv.Load(".env")
+	fmt.Println("TES", os.Getenv("NODEJS_PASS"), os.Getenv("NODEJS_HASHED"))
 	ok := ComparePassword(os.Getenv("NODEJS_PASS"), os.Getenv("NODEJS_HASHED"))
 	if !ok {
 		t.Errorf("Password not match")

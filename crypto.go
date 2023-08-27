@@ -16,7 +16,7 @@ type CryptoKey struct {
 	key []byte
 }
 
-func PortalnesiaCrypto(secret string) CryptoKey {
+func New(secret string) CryptoKey {
 	key := []byte(secret)
 	return CryptoKey{key: key}
 }
@@ -55,6 +55,10 @@ func (crypto CryptoKey) Encrypt(data string) (string, error) {
 }
 
 func (crypto CryptoKey) Decrypt(encrypted string) (string, error) {
+	if len(encrypted) <= 0 {
+		return "", nil
+	}
+
 	split := strings.Split(encrypted, ":")
 
 	encrypted = split[0] + split[1]

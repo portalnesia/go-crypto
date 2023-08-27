@@ -1,6 +1,6 @@
-module github.com/portalnesia/go-crypto
+module go.portalnesia.com/crypto
 
-go 1.19
+go 1.21
 
 require (
 	github.com/joho/godotenv v1.4.0

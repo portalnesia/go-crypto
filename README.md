@@ -1,25 +1,27 @@
-# Go-Crypto
+[![Go Reference](https://pkg.go.dev/badge/go.portalnesia.com/crypto.svg)](https://pkg.go.dev/go.portalnesia.com/crypto) ![Unit Testing](https://github.com/portalnesia/go-crypto/actions/workflows/crypto_test.yml/badge.svg)
+
+# Crypto
 
 Crypto package for Internal Portalnesia
 
 ## Install
 
 ```bash
-go get github.com/portalnesia/go-crypto
+go get go.portalnesia.com/crypto
 ```
 
-## Example
+## Usage
 
 ```go
 package main
 
 import (
-  crypto "github.com/portalnesia/go-crypto"
+  "go.portalnesia.com/crypto"
   "fmt"
 )
 
 func main() {
-  c := crypto.PortalnesiaCrypto("YOUR_SECRET_KEY")
+  c := crypto.New("YOUR_SECRET_KEY")
 
   text := "Hello World"
 
@@ -34,4 +36,4 @@ func main() {
 ```
 
 ## Go References
-[pkg.go.dev/github.com/portalnesia/go-crypto](https://pkg.go.dev/github.com/portalnesia/go-crypto)
+[pkg.go.dev/go.portalnesia.com/crypto](https://pkg.go.dev/go.portalnesia.com/crypto)
