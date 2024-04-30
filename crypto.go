@@ -30,7 +30,7 @@ func (crypto CryptoKey) Encrypt(data string) (string, error) {
 	}
 
 	if len(plainText)%aes.BlockSize != 0 {
-		err := fmt.Errorf(`plainText: "%s" has the wrong block size`, plainText)
+		err = fmt.Errorf(`plainText: "%s" has the wrong block size`, plainText)
 		return "", err
 	}
 
@@ -41,7 +41,7 @@ func (crypto CryptoKey) Encrypt(data string) (string, error) {
 
 	cipherText := make([]byte, aes.BlockSize+len(plainText))
 	iv := cipherText[:aes.BlockSize]
-	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
+	if _, err = io.ReadFull(rand.Reader, iv); err != nil {
 		return "", err
 	}
 
@@ -63,7 +63,10 @@ func (crypto CryptoKey) Decrypt(encrypted string) (string, error) {
 
 	encrypted = split[0] + split[1]
 
-	cipherText, _ := hex.DecodeString(encrypted)
+	cipherText, err := hex.DecodeString(encrypted)
+	if err != nil {
+		return "", err
+	}
 
 	block, err := aes.NewCipher(crypto.key)
 	if err != nil {
@@ -83,7 +86,10 @@ func (crypto CryptoKey) Decrypt(encrypted string) (string, error) {
 	mode := cipher.NewCBCDecrypter(block, iv)
 	mode.CryptBlocks(cipherText, cipherText)
 
-	cipherText, _ = pkcs7.Unpad(cipherText, aes.BlockSize)
+	cipherText, err = pkcs7.Unpad(cipherText, aes.BlockSize)
+	if err != nil {
+		return "", err
+	}
 
 	return string(cipherText), nil
 }
