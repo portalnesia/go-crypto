@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) Portalnesia - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Putu Aditya <aditya@portalnesia.com>
+ */
+
 package crypto
 
 import (
@@ -12,16 +19,18 @@ import (
 	"github.com/mergermarket/go-pkcs7"
 )
 
-type CryptoKey struct {
+type Crypto struct {
 	key []byte
 }
 
-func New(secret string) CryptoKey {
+// New initialize Crypto instance
+func New(secret string) Crypto {
 	key := []byte(secret)
-	return CryptoKey{key: key}
+	return Crypto{key: key}
 }
 
-func (crypto CryptoKey) Encrypt(data string) (string, error) {
+// Encrypt encrypt data
+func (c Crypto) Encrypt(data string) (string, error) {
 	plainText := []byte(data)
 	plainText, err := pkcs7.Pad(plainText, aes.BlockSize)
 
@@ -34,7 +43,7 @@ func (crypto CryptoKey) Encrypt(data string) (string, error) {
 		return "", err
 	}
 
-	block, err := aes.NewCipher(crypto.key)
+	block, err := aes.NewCipher(c.key)
 	if err != nil {
 		return "", err
 	}
@@ -54,7 +63,8 @@ func (crypto CryptoKey) Encrypt(data string) (string, error) {
 	return encrypted, nil
 }
 
-func (crypto CryptoKey) Decrypt(encrypted string) (string, error) {
+// Decrypt decrypt data
+func (c Crypto) Decrypt(encrypted string) (string, error) {
 	if len(encrypted) <= 0 {
 		return "", nil
 	}
@@ -68,7 +78,7 @@ func (crypto CryptoKey) Decrypt(encrypted string) (string, error) {
 		return "", err
 	}
 
-	block, err := aes.NewCipher(crypto.key)
+	block, err := aes.NewCipher(c.key)
 	if err != nil {
 		return "", err
 	}
