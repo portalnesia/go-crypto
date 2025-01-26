@@ -30,9 +30,14 @@ func New(secret string) Crypto {
 }
 
 // Encrypt encrypt data
-func (c Crypto) Encrypt(data string) (string, error) {
+func (c Crypto) Encrypt(data string) (result string, err error) {
+	if r := recover(); r != nil {
+		err = fmt.Errorf("panic recover: %v", r)
+		result = ""
+	}
+
 	plainText := []byte(data)
-	plainText, err := pkcs7.Pad(plainText, aes.BlockSize)
+	plainText, err = pkcs7.Pad(plainText, aes.BlockSize)
 
 	if err != nil {
 		return "", fmt.Errorf(`plainText: "%s" has error`, plainText)
@@ -58,20 +63,27 @@ func (c Crypto) Encrypt(data string) (string, error) {
 	mode.CryptBlocks(cipherText[aes.BlockSize:], plainText)
 
 	encryptedText := hex.EncodeToString(cipherText)
-	encrypted := encryptedText[:32] + ":" + encryptedText[32:]
+	result = encryptedText[:32] + ":" + encryptedText[32:]
 
-	return encrypted, nil
+	return
 }
 
 // Decrypt decrypt data
-func (c Crypto) Decrypt(encrypted string) (string, error) {
+func (c Crypto) Decrypt(encrypted string) (result string, err error) {
+	if r := recover(); r != nil {
+		err = fmt.Errorf("panic recover: %v", r)
+		result = ""
+	}
+
 	if len(encrypted) <= 0 {
 		return "", nil
 	}
 
 	split := strings.Split(encrypted, ":")
 
-	encrypted = split[0] + split[1]
+	if len(split) == 2 {
+		encrypted = split[0] + split[1]
+	}
 
 	cipherText, err := hex.DecodeString(encrypted)
 	if err != nil {

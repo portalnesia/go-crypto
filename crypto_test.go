@@ -43,6 +43,18 @@ func TestCrypto(t *testing.T) {
 	}
 }
 
+func TestCrypto_DecryptError(t *testing.T) {
+	_, KEY := GetConfig()
+	crypto := New(KEY)
+	decrypted, err := crypto.Decrypt("some-text-123")
+	if err == nil {
+		t.Errorf("decrypt should fail")
+	}
+	if decrypted != "" {
+		t.Errorf("decrypt should be empty")
+	}
+}
+
 func TestFromNodeJs(t *testing.T) {
 	TEXT, KEY := GetConfig()
 
